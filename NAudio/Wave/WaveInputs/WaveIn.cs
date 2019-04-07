@@ -20,7 +20,7 @@ namespace NAudio.Wave
         private readonly SynchronizationContext syncContext;
         private int lastReturnedBufferIndex;
         /// <summary>
-        /// Indicates recorded data is available 
+        /// Indicates recorded data is available
         /// </summary>
         public event EventHandler<WaveInEventArgs> DataAvailable;
 
@@ -65,7 +65,6 @@ namespace NAudio.Wave
             NumberOfBuffers = 3;
             callback = Callback;
             this.callbackInfo = callbackInfo;
-            callbackInfo.Connect(callback);
         }
 
         /// <summary>
@@ -228,7 +227,7 @@ namespace NAudio.Wave
                 }
                 RaiseRecordingStopped(null);
             }
-            //MmException.Try(WaveInterop.waveInReset(waveInHandle), "waveInReset");      
+            //MmException.Try(WaveInterop.waveInReset(waveInHandle), "waveInReset");
             // Don't actually close yet so we get the last buffer
         }
 
@@ -264,11 +263,6 @@ namespace NAudio.Wave
                 if (recording)
                     StopRecording();
                 CloseWaveInDevice();
-                if (callbackInfo != null)
-                {
-                    callbackInfo.Disconnect();
-                    callbackInfo = null;
-                }
             }
         }
 

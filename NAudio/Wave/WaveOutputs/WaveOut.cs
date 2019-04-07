@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
 
-namespace NAudio.Wave 
+namespace NAudio.Wave
 {
     /// <summary>
     /// Represents a wave out device
@@ -97,7 +97,6 @@ namespace NAudio.Wave
             callback = Callback;
             waveOutLock = new object();
             this.callbackInfo = callbackInfo;
-            callbackInfo.Connect(callback);
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace NAudio.Wave
         public void Init(IWaveProvider waveProvider)
         {
             waveStream = waveProvider;
-            int bufferSize = waveProvider.WaveFormat.ConvertLatencyToByteSize((DesiredLatency + NumberOfBuffers - 1) / NumberOfBuffers);            
+            int bufferSize = waveProvider.WaveFormat.ConvertLatencyToByteSize((DesiredLatency + NumberOfBuffers - 1) / NumberOfBuffers);
 
             MmResult result;
             lock (waveOutLock)
@@ -218,7 +217,7 @@ namespace NAudio.Wave
                 // in the call to waveOutReset with function callbacks
                 // some drivers will block here until OnDone is called
                 // for every buffer
-                playbackState = PlaybackState.Stopped; // set this here to avoid a problem with some drivers whereby 
+                playbackState = PlaybackState.Stopped; // set this here to avoid a problem with some drivers whereby
                 MmResult result;
                 lock (waveOutLock)
                 {
@@ -351,10 +350,6 @@ namespace NAudio.Wave
             {
                 WaveInterop.waveOutClose(hWaveOut);
             }
-            if (disposing)
-            {
-                callbackInfo.Disconnect();
-            }
         }
 
         /// <summary>
@@ -383,9 +378,9 @@ namespace NAudio.Wave
                     // to avoid deadlocks in Function callback mode,
                     // we lock round this whole thing, which will include the
                     // reading from the stream.
-                    // this protects us from calling waveOutReset on another 
+                    // this protects us from calling waveOutReset on another
                     // thread while a WaveOutWrite is in progress
-                    lock (waveOutLock) 
+                    lock (waveOutLock)
                     {
                         try
                         {
